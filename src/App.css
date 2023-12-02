@@ -1,0 +1,17 @@
+input::placeholder{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  padding:1rem
+}
+input{
+  padding-inline-start:2rem;
+}
+input{
+  caret-color: blue;
+}
+#game-name{
+  display:-webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow:hidden;
+}
