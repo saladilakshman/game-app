@@ -161,6 +161,7 @@ const GameInfo = () => {
                     width: 28,
                     padding:0.5,
                     borderRadius: 0.8,
+                    color:'white'
                   }}
                 >
                   {metacritic}
@@ -181,10 +182,9 @@ const GameInfo = () => {
                 </Stack>
               </Stack>
             </Stack>
-            <Typography variant="body1" textAlign="justify"sx={{
+            <Typography variant={mobile?'body2':'body1'} textAlign="justify"sx={{
               paddingBlockStart:4,
-              margin:mobile?0.5:"",
-
+              //margin:mobile?0.1:""
             }}>
               {description_raw}
             </Typography>
