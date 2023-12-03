@@ -29,7 +29,7 @@ const GameInfo = () => {
       )
       .then((res) => {
         setGamedetails(res.data);
-        //setShowside(true)
+        setIsload(false)
       })
       .catch((err) => {
         console.log(err.message);
