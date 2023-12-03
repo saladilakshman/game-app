@@ -223,24 +223,25 @@ function Home() {
                   <Card
                     sx={{
                       width: mobile ? "100%" : 300,
-                      height: mobile ? 285 : 240,
+                      height: mobile ? 285 : 245,
                       "&:hover": {
                         boxShadow: state.ischecked ? "" : 4,
                       },
+                    
                     }}
                   >
                     <CardMedia
-                      sx={{
-                        objectFit: "fill",
-                      }}
+                    sx={{
+                      objectFit:'cover'
+                    }}
                     >
                       <LazyLoadImage
                         alt=""
-                        height={"145"}
+                        height="145"
+                        width={mobile?'100%':300}
                         src={background_image} 
                       />
                     </CardMedia>
-
                     <CardContent
                       sx={{
                         display: "flex",
@@ -281,6 +282,7 @@ function Home() {
                       spacing={0.4}
                       sx={{
                         paddingInlineStart: 1,
+                        
                       }}
                     >
                       <Typography variant="body1">Available on:</Typography>
