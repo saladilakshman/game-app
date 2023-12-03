@@ -7,15 +7,21 @@ import {
   Stack,
   Container,
   Typography,
+  CircularProgress,
   Box,
   ImageList,
   ImageListItem,
   Dialog,
   IconButton,
+  useTheme,
+  useMediaQuery
 } from "@mui/material";
 const GameInfo = () => {
   const {gameinfo} = useParams();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [gamedetails, setGamedetails] = useState({});
+  const[isload,setIsload]=useState(true);
   useEffect(() => {
     axios
       .get(
@@ -107,7 +113,14 @@ const GameInfo = () => {
         marginBlockStart:4,
         marginBlockEnd:3
       }}>
-        <Stack
+        {isload?(
+          <CircularProgress sx={{
+            position:'absolute',
+            top:'50%',
+            left:mobile?'45%':'48%'      
+          }}/>
+        ):(
+          <Stack
           direction="column-reverse"
           justifyContent={"center"}
           alignItems="baseline"
@@ -119,7 +132,7 @@ const GameInfo = () => {
               flexWrap={true}
               justifyContent="flex-start"
               alignItems="baseline"
-              spacing={12}
+              spacing={mobile?3:12}
               sx={{
                 marginBlockStart: 3,
               }}
@@ -169,7 +182,9 @@ const GameInfo = () => {
               </Stack>
             </Stack>
             <Typography variant="body1" textAlign="justify"sx={{
-              marginBlockStart:4
+              paddingBlockStart:4,
+              margin:mobile?0.5:"",
+
             }}>
               {description_raw}
             </Typography>
@@ -191,6 +206,8 @@ const GameInfo = () => {
             })}
           </ImageList>
         </Stack>
+        )}
+       
       </Container>
     </>
   );

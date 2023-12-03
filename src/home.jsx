@@ -9,6 +9,7 @@ import CardLayout from "./skeleton";
 import BedtimeIcon from "@mui/icons-material/Bedtime";
 import MenuIcon from "@mui/icons-material/Menu";
 import { API_KEY } from "./key";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import {
   Typography,
   AppBar,
@@ -53,7 +54,7 @@ function Home() {
   const [genredata, setGenredata] = useState([]);
   const [page, setPage] = useState(1);
   const [copy, setCopy] = useState([]);
-  const[showbtn,setShowbtn]=useState(false);
+  const [showbtn, setShowbtn] = useState(false);
   const mobilelayout = {
     display: "flex",
     flexDirection: "row",
@@ -66,14 +67,14 @@ function Home() {
         `https://api.rawg.io/api/games?key=${API_KEY}&genres=${genre}&page=${page}`
       )
       .then((res) => {
-        setGenredata([...genredata,...res.data.results]);
+        setGenredata([...genredata, ...res.data.results]);
         setCopy(res.data.results);
         setLoading(false);
-        setShowbtn(true)
+        setShowbtn(true);
       })
       .catch((err) => console.log(err));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genre,page]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [genre, page]);
   const os_types = [
     { name: "android", Icon: <FcAndroidOs /> },
     { name: "linux", Icon: <FcLinux /> },
@@ -160,7 +161,7 @@ function Home() {
                   }}
                 >
                   <ListItemAvatar>
-                    <Avatar src={image_background} loading="lazy" />
+                    <Avatar src={image_background}alt=""loading="lazy"/>
                   </ListItemAvatar>
                   <ListItemText>
                     <Typography variant="body1">{name}</Typography>
@@ -199,7 +200,6 @@ function Home() {
             padding: 1,
           }}
         >
-
           {genredata?.map((gamedetails, index) => {
             const { id, name, background_image, rating, platforms } =
               gamedetails;
@@ -207,7 +207,7 @@ function Home() {
               return platforms?.some((platform) => {
                 return os.name.includes(platform.platform.slug);
               });
-            })
+            });
             return loading ? (
               <Grid item xs={6} sm={6} lg={3} key={index}>
                 <CardLayout
@@ -225,19 +225,22 @@ function Home() {
                       width: mobile ? "100%" : 300,
                       height: mobile ? 285 : 240,
                       "&:hover": {
-                        boxShadow:state.ischecked?'':4,
+                        boxShadow: state.ischecked ? "" : 4,
                       },
                     }}
                   >
                     <CardMedia
-                      component="img"
-                      height="145"
-                      image={background_image}
-                      alt=""
                       sx={{
                         objectFit: "fill",
                       }}
-                    />
+                    >
+                      <LazyLoadImage
+                        alt=""
+                        height={"145"}
+                        src={background_image} 
+                      />
+                    </CardMedia>
+
                     <CardContent
                       sx={{
                         display: "flex",
@@ -302,28 +305,28 @@ function Home() {
                 </CardActionArea>
               </Grid>
             );
-                      })}
+          })}
         </Grid>
-        { showbtn&&
-        <Button
-          variant="contained"
-          color="primary"
-          size={mobile?'small':'medium'}
-          sx={{
-            display: "block",
-            margin:mobile?"auto":'',
-            marginLeft:mobile?'':'40%',
-            marginBlockStart:3,
-            marginBlockEnd:2
-          }}
-          onClick={() => {
-            setLoading(true);
-            setPage((page) => page + 1);
-          }}
-        >
-          Load more
-        </Button>
-}
+        {showbtn && (
+          <Button
+            variant="contained"
+            color="primary"
+            size={mobile ? "small" : "medium"}
+            sx={{
+              display: "block",
+              margin: mobile ? "auto" : "",
+              marginLeft: mobile ? "" : "40%",
+              marginBlockStart: 3,
+              marginBlockEnd: 2,
+            }}
+            onClick={() => {
+              setLoading(true);
+              setPage((page) => page + 1);
+            }}
+          >
+            Load more
+          </Button>
+        )}
       </Box>
     </>
   );
