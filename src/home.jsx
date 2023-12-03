@@ -67,8 +67,8 @@ function Home() {
         `https://api.rawg.io/api/games?key=${API_KEY}&genres=${genre}&page=${page}`
       )
       .then((res) => {
-        setGenredata([...genredata, ...res.data.results]);
-        setCopy(res.data.results);
+        setCopy([...genredata, ...res.data.results]);
+        setGenredata(res.data.results);
         setLoading(false);
         setShowbtn(true);
       })
@@ -161,7 +161,7 @@ function Home() {
                   }}
                 >
                   <ListItemAvatar>
-                    <Avatar src={image_background}alt=""loading="lazy"/>
+                    <Avatar src={image_background} alt="" loading="lazy" />
                   </ListItemAvatar>
                   <ListItemText>
                     <Typography variant="body1">{name}</Typography>
@@ -227,19 +227,18 @@ function Home() {
                       "&:hover": {
                         boxShadow: state.ischecked ? "" : 4,
                       },
-                    
                     }}
                   >
                     <CardMedia
-                    sx={{
-                      objectFit:'cover'
-                    }}
+                      sx={{
+                        objectFit: "cover",
+                      }}
                     >
                       <LazyLoadImage
                         alt=""
                         height="145"
-                        width={mobile?'100%':300}
-                        src={background_image} 
+                        width={mobile ? "100%" : 300}
+                        src={background_image}
                       />
                     </CardMedia>
                     <CardContent
@@ -282,7 +281,6 @@ function Home() {
                       spacing={0.4}
                       sx={{
                         paddingInlineStart: 1,
-                        
                       }}
                     >
                       <Typography variant="body1">Available on:</Typography>
@@ -310,24 +308,43 @@ function Home() {
           })}
         </Grid>
         {showbtn && (
-          <Button
-            variant="contained"
-            color="primary"
-            size={mobile ? "small" : "medium"}
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
             sx={{
-              display: "block",
-              margin: mobile ? "auto" : "",
-              marginLeft: mobile ? "" : "40%",
-              marginBlockStart: 3,
-              marginBlockEnd: 2,
-            }}
-            onClick={() => {
-              setLoading(true);
-              setPage((page) => page + 1);
+              marginBlockStart:3,
+              marginBlockEnd:2
             }}
           >
-            Load more
-          </Button>
+            <Button
+              variant="outlined"
+              size={mobile ? "small" : "medium"}
+              color="success"
+              onClick={() => {
+                setLoading(true);
+                setPage((page) => page - 1);
+              }}
+              sx={{
+                width:43
+              }}
+              disabled={page < 2 ? true : false}
+            >
+              Prev
+            </Button>
+            <Button
+              variant="contained"
+              size={mobile ? "small" : "medium"}
+              color="info"
+              onClick={() => {
+                setLoading(true);
+                setPage((page) => page + 1);
+              }}
+            >
+              Next
+            </Button>
+          </Stack>
         )}
       </Box>
     </>
