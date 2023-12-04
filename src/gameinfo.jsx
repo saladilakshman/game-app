@@ -86,12 +86,10 @@ const GameInfo = () => {
               color: "white",
             }}
             onClick={() => {
-              setIndex(
-                (index) =>
-                  (index - 1 + backgroundImages.length) %
-                  backgroundImages.length,
-              );
-              setSrc(backgroundImages[index]);
+              const newInd = index === 0 ? backgroundImages.length - 1 : index - 1;
+          setIndex(newInd);
+          setSrc(backgroundImages[newInd]);
+          console.log(newInd);
             }}
           >
             <WestIcon />
@@ -101,8 +99,9 @@ const GameInfo = () => {
               color: "white",
             }}
             onClick={() => {
-              setIndex((index) => (index + 1) % backgroundImages.length);
-              setSrc(backgroundImages[index]);
+              const ind = index === backgroundImages.length - 1 ? 0 : index + 1;
+              setIndex(ind);
+              setSrc(backgroundImages[ind]);
             }}
           >
             <EastIcon />
