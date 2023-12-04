@@ -112,6 +112,7 @@ function Home() {
               setGenredata(
                 copy.filter((item) => item.name.includes(e.target.value))
               );
+              setShowbtn(false)
             }}
             placeholder="search games.."
             style={{
