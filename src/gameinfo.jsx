@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { API_KEY } from "./key";
 import WestIcon from "@mui/icons-material/West";
 import EastIcon from "@mui/icons-material/East";
 import {
@@ -14,27 +15,27 @@ import {
   Dialog,
   IconButton,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 const GameInfo = () => {
-  const {gameinfo} = useParams();
+  const { gameinfo } = useParams();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [gamedetails, setGamedetails] = useState({});
-  const[isload,setIsload]=useState(true);
+  const [isload, setIsload] = useState(true);
   useEffect(() => {
     axios
       .get(
-        `https://api.rawg.io/api/games/${gameinfo}?key=09619b081a8f49248c5ea7d2c2f562b4`
+        `https://api.rawg.io/api/games/${gameinfo}?key=${API_KEY}`
       )
       .then((res) => {
         setGamedetails(res.data);
-        setIsload(false)
+        setIsload(false);
       })
       .catch((err) => {
         console.log(err.message);
       });
-  },[gameinfo]);
+  }, [gameinfo]);
   const {
     name,
     description_raw,
@@ -70,7 +71,7 @@ const GameInfo = () => {
           sx={{
             width: "100%",
             height: "100%",
-            aspectRatio:3/2
+            aspectRatio: 3 / 2,
           }}
         />
         <Stack
@@ -86,10 +87,11 @@ const GameInfo = () => {
               color: "white",
             }}
             onClick={() => {
-              const newInd = index === 0 ? backgroundImages.length - 1 : index - 1;
-          setIndex(newInd);
-          setSrc(backgroundImages[newInd]);
-          console.log(newInd);
+              const newInd =
+                index === 0 ? backgroundImages.length - 1 : index - 1;
+              setIndex(newInd);
+              setSrc(backgroundImages[newInd]);
+              console.log(newInd);
             }}
           >
             <WestIcon />
@@ -108,105 +110,112 @@ const GameInfo = () => {
           </IconButton>
         </Stack>
       </Dialog>
-      <Container sx={{
-        marginBlockStart:4,
-        marginBlockEnd:3
-      }}>
-        {isload?(
-          <CircularProgress sx={{
-            position:'absolute',
-            top:'50%',
-            left:mobile?'45%':'48%'      
-          }}/>
-        ):(
+      <Container
+        sx={{
+          marginBlockStart: 4,
+          marginBlockEnd: 3,
+        }}
+      >
+        {isload ? (
+          <CircularProgress
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: mobile ? "45%" : "48%",
+            }}
+          />
+        ) : (
           <Stack
-          direction="column-reverse"
-          justifyContent={"center"}
-          alignItems="baseline"
-        >
-          <Box>
-            <Typography variant="h5">{name}</Typography>
-            <Stack
-              direction="row"
-              flexWrap={true}
-              justifyContent="flex-start"
-              alignItems="baseline"
-              spacing={mobile?3:12}
-              sx={{
-                marginBlockStart: 3,
-              }}
-            >
-              <Stack>
-                <Typography variant="body1" sx={{ color: "grey" }}>
-                  Platforms
-                </Typography>
-                <Stack direction="column">
-                  {platform_types.map((el, index) => {
-                    return (
-                      <Typography variant="body2" key={index}>
-                        {el}
-                      </Typography>
-                    );
-                  })}
+            direction="column-reverse"
+            justifyContent={"center"}
+            alignItems="baseline"
+          >
+            <Box>
+              <Typography variant="h5">{name}</Typography>
+              <Stack
+                direction="row"
+                flexWrap={true}
+                justifyContent="flex-start"
+                alignItems="baseline"
+                spacing={mobile ? 3 : 12}
+                sx={{
+                  marginBlockStart: 3,
+                }}
+              >
+                <Stack>
+                  <Typography variant="body1" sx={{ color: "grey" }}>
+                    Platforms
+                  </Typography>
+                  <Stack direction="column">
+                    {platform_types.map((el, index) => {
+                      return (
+                        <Typography variant="body2" key={index}>
+                          {el}
+                        </Typography>
+                      );
+                    })}
+                  </Stack>
+                </Stack>
+                <Stack>
+                  <Typography variant="body1" sx={{ color: "grey" }}>
+                    Metascore
+                  </Typography>
+                  <Box
+                    sx={{
+                      backgroundColor: "#1C7C54",
+                      width: 28,
+                      padding: 0.5,
+                      borderRadius: 0.8,
+                      color: "white",
+                    }}
+                  >
+                    {metacritic}
+                  </Box>
+                </Stack>
+                <Stack>
+                  <Typography variant="body1" sx={{ color: "grey" }}>
+                    Genres
+                  </Typography>
+                  <Stack direction="column">
+                    {genre_names.map((el, index) => {
+                      return (
+                        <Typography variant="body2" key={index}>
+                          {el}
+                        </Typography>
+                      );
+                    })}
+                  </Stack>
                 </Stack>
               </Stack>
-              <Stack>
-                <Typography variant="body1" sx={{ color: "grey" }}>
-                  Metascore
-                </Typography>
-                <Box
-                  sx={{
-                    backgroundColor: "#1C7C54",
-                    width: 28,
-                    padding:0.5,
-                    borderRadius: 0.8,
-                    color:'white'
-                  }}
-                >
-                  {metacritic}
-                </Box>
-              </Stack>
-              <Stack>
-                <Typography variant="body1" sx={{ color: "grey" }}>
-                  Genres
-                </Typography>
-                <Stack direction="column">
-                  {genre_names.map((el, index) => {
-                    return (
-                      <Typography variant="body2" key={index}>
-                        {el}
-                      </Typography>
-                    );
-                  })}
-                </Stack>
-              </Stack>
-            </Stack>
-            <Typography variant={mobile?'body2':'body1'} textAlign="justify"sx={{
-              paddingBlockStart:4,
-              //margin:mobile?0.1:""
-            }}>
-              {description_raw}
-            </Typography>
-          </Box>
-          <ImageList variant="masonry" cols={3} rowHeight={206}>
-            {Array.from(backgroundImages, (game_image, index) => {
-              return (
-                <ImageListItem
-                  key={index}
-                  onClick={() => {
-                    setIndex(index);
-                    setIshidden(true);
-                    setSrc(backgroundImages[index]);
-                  }}
-                >
-                  <img src={game_image} alt="" />
-                </ImageListItem>
-              );
-            })}
-          </ImageList>
-        </Stack>
+              <Typography
+                variant={mobile ? "body2" : "body1"}
+                textAlign="justify"
+                sx={{
+                  paddingBlockStart: 4,
+                  //margin:mobile?0.1:""
+                }}
+              >
+                {description_raw}
+              </Typography>
+            </Box>
+            <ImageList variant="masonry" cols={3} rowHeight={206}>
+              {Array.from(backgroundImages, (game_image, index) => {
+                return (
+                  <ImageListItem
+                    key={index}
+                    onClick={() => {
+                      setIndex(index);
+                      setIshidden(true);
+                      setSrc(backgroundImages[index]);
+                    }}
+                  >
+                    <img src={game_image} alt="" />
+                  </ImageListItem>
+                );
+              })}
+            </ImageList>
+          </Stack>
         )}
-       
       </Container>
     </>
   );
