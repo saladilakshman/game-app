@@ -84,6 +84,11 @@ function Home() {
     { name: "xbox", Icon: <FaXbox /> },
     { name: "pc", Icon: <IoIosDesktop /> },
   ];
+  useEffect(() => {
+    if (loading) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [loading]);
   return (
     <>
       <AppBar
@@ -326,6 +331,7 @@ function Home() {
               onClick={() => {
                 setLoading(true);
                 setPage((page) => page - 1);
+                
               }}
               sx={{
                 width:43
@@ -341,6 +347,7 @@ function Home() {
               onClick={() => {
                 setLoading(true);
                 setPage((page) => page + 1);
+               
               }}
             >
               Next
