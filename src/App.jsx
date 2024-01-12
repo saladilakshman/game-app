@@ -18,7 +18,8 @@ function App() {
     selectedIndex:0,
     genreheader:'Action',
     genredata:[],
-    page:1
+    page:1,
+    isSearchbarOpen:false,
   }
   const appreducer=(state,action)=>{
     if(action.type==="dark-mode-switch"){
@@ -32,6 +33,12 @@ function App() {
         ...state,
         isopen:!state.isopen,
 
+      }
+    }
+    if(action.type==="open-search-bar"){
+      return{
+        ...state,
+        isSearchbarOpen:!state.isSearchbarOpen
       }
     }
     else{

@@ -17,6 +17,7 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 const GameInfo = () => {
   const { gameinfo } = useParams();
   const theme = useTheme();
@@ -61,6 +62,7 @@ const GameInfo = () => {
   const [ishidden, setIshidden] = useState(false);
   const [index, setIndex] = useState(null);
   const [src, setSrc] = useState(backgroundImages[index]);
+  const set=new Set(backgroundImages);
   return (
     <>
       <Dialog open={ishidden} onClose={() => setIshidden(false)}>
@@ -112,7 +114,7 @@ const GameInfo = () => {
       </Dialog>
       <Container
         sx={{
-          marginBlockStart: 4,
+          marginBlockStart: 1,
           marginBlockEnd: 3,
         }}
       >
@@ -191,15 +193,15 @@ const GameInfo = () => {
                 variant={mobile ? "body2" : "body1"}
                 textAlign="justify"
                 sx={{
-                  paddingBlockStart: 4,
+                  paddingBlockStart:4,
                   //margin:mobile?0.1:""
                 }}
               >
                 {description_raw}
               </Typography>
             </Box>
-            <ImageList variant="masonry" cols={3} rowHeight={206}>
-              {Array.from(backgroundImages, (game_image, index) => {
+            <ImageList variant="masonry" cols={2}  rowHeight={206}>
+              {Array.from(set, (game_image, index) => {
                 return (
                   <ImageListItem
                     key={index}
@@ -209,7 +211,12 @@ const GameInfo = () => {
                       setSrc(backgroundImages[index]);
                     }}
                   >
-                    <img src={game_image} alt="" />
+                    <LazyLoadImage
+                        alt=""
+                        height={mobile?"100%":"100%"}
+                        width={mobile?160:"100%"}
+                        src={game_image}
+                      />
                   </ImageListItem>
                 );
               })}

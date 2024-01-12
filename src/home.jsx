@@ -10,6 +10,8 @@ import BedtimeIcon from "@mui/icons-material/Bedtime";
 import MenuIcon from "@mui/icons-material/Menu";
 import { API_KEY } from "./key";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import SearchIcon from "@mui/icons-material/Search";
+import Searchbar from "./search";
 import {
   Typography,
   AppBar,
@@ -32,6 +34,7 @@ import {
   ListItemAvatar,
   Avatar,
   Button,
+ 
 } from "@mui/material";
 import { genres } from "./Genres";
 import { FaXbox } from "react-icons/fa";
@@ -58,7 +61,7 @@ function Home() {
   const mobilelayout = {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
   };
   useEffect(() => {
@@ -86,7 +89,7 @@ function Home() {
   ];
   useEffect(() => {
     if (loading) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [loading]);
   return (
@@ -111,27 +114,36 @@ function Home() {
           </IconButton>
         )}
         <Toolbar>
-          <input
-            type="search"
-            onChange={(e) => {
-              setGenredata(
-                copy.filter((item) => item.name.includes(e.target.value))
-              );
-              setShowbtn(false)
-            }}
-            placeholder="search games.."
-            style={{
-              marginInlineStart: mobile ? "0" : "1rem",
-              width: mobile ? "100%" : "40rem",
-              boxShadow: theme.shadows[4],
-              height: mobile ? "2.1rem" : "2.8rem",
-              outline: "none",
-              border: "0",
-              borderRadius: "2rem",
-              display: "block",
-              margin: "auto",
-            }}
-          />
+          {mobile ? (
+            <IconButton
+              color="inherit"
+              onClick={() => dispatch({ type: "open-search-bar" })}
+            >
+              <SearchIcon />
+            </IconButton>
+          ) : (
+            <input
+              type="search"
+              onChange={(e) => {
+                setGenredata(
+                  copy.filter((item) => item.name.includes(e.target.value))
+                );
+                setShowbtn(false);
+              }}
+              placeholder="search games.."
+              style={{
+                marginInlineStart: mobile ? "0" : "1rem",
+                width: mobile ? "100%" : "40rem",
+                boxShadow: theme.shadows[4],
+                height: mobile ? "2.1rem" : "2.8rem",
+                outline: "none",
+                border: "0",
+                borderRadius: "2rem",
+                display: "block",
+                margin: "auto",
+              }}
+            />
+          )}
           <Stack direction="row" justifyContent="center" alignItems="center">
             <Switch
               color="primary"
@@ -320,8 +332,8 @@ function Home() {
             alignItems="center"
             spacing={2}
             sx={{
-              marginBlockStart:3,
-              marginBlockEnd:2
+              marginBlockStart: 3,
+              marginBlockEnd: 2,
             }}
           >
             <Button
@@ -331,10 +343,9 @@ function Home() {
               onClick={() => {
                 setLoading(true);
                 setPage((page) => page - 1);
-                
               }}
               sx={{
-                width:43
+                width: 43,
               }}
               disabled={page < 2 ? true : false}
             >
@@ -347,7 +358,6 @@ function Home() {
               onClick={() => {
                 setLoading(true);
                 setPage((page) => page + 1);
-               
               }}
             >
               Next
@@ -355,6 +365,7 @@ function Home() {
           </Stack>
         )}
       </Box>
+      <Searchbar/>
     </>
   );
 }
