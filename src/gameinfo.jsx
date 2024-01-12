@@ -11,8 +11,6 @@ import {
   Typography,
   CircularProgress,
   Box,
-  ImageList,
-  ImageListItem,
   Dialog,
   IconButton,
   useTheme,
@@ -225,6 +223,7 @@ const GameInfo = () => {
                 {Array.from(set, (game_image, index) => {
                   return (
                     <LazyLoadImage
+                      className="carousel-image"
                       key={index}
                       onClick={() => {
                         setIndex(index);
@@ -234,6 +233,10 @@ const GameInfo = () => {
                       src={game_image}
                       height={mobile?"100%":"50%"}
                       width={mobile?"100%":"50%"}
+                      style={{
+                        aspectRatio:3/2,
+                        borderRadius:'0.5rem'
+                      }}
                     />
                   );
                 })}
